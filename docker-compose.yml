@@ -1,0 +1,21 @@
+services:
+    climaapi:
+        image: ${DOCKER_REGISTRY-}climaapi
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports: 
+         - "8081:80"
+        depends_on:
+         - climaapidbserver
+    
+    climaapidbserver:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        environment:
+            - SA_PASSWORD=climaapi2023
+            - ACCEPT_EULA=Y
+        volumes:
+            - C:\Projetos\DatabaseBackup\volumes:/var/opt/mssql/data
+        ports:
+            - "1451:1433"
+            
